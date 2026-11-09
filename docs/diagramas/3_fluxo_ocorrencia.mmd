@@ -9,7 +9,7 @@ classDiagram
     +buscarPorIdRs(id) Ocorrencia
     +inserirRs(ocorrencia) ResponseEntity~Ocorrencia~
     +atualizarRs(id, ocorrencia) ResponseEntity~Ocorrencia~
-    +validarRs(id, pedido) ResponseEntity~Ocorrencia~
+    +validarRs(id, pedido, token) ResponseEntity~Ocorrencia~
     +deletarRs(id) ResponseEntity~Void~
     +confirmacoesRs(id) ArrayList~Confirmacao~
     +confirmarRs(id, confirmacao) ResponseEntity~Confirmacao~
@@ -31,7 +31,6 @@ classDiagram
     +selecionarPorOcorrenciaBo(idOcorrencia) ArrayList~Confirmacao~
     +buscarPorIdBo(id) Confirmacao
     +inserirBo(confirmacao) Confirmacao
-    +atualizarBo(id, confirmacao) Confirmacao
     +deletarBo(id) void
   }
   class UsuarioBo {
@@ -88,6 +87,12 @@ classDiagram
     +obrigatorio(valor, campo)$ void
     +dominio(valor, campo, permitidos)$ void
   }
+  class Autorizacao {
+    +String CABECALHO$
+    +exigirAgente(tokenInformado)$ void
+    +perfilPrivilegiado(tipoPerfil)$ boolean
+  }
+  OcorrenciaController ..> Autorizacao : valida credencial
   OcorrenciaController --> OcorrenciaBo : usa
   OcorrenciaController --> ConfirmacaoBo : usa
   OcorrenciaController ..> ValidacaoRequest : recebe

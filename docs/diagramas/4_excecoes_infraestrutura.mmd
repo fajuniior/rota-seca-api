@@ -10,6 +10,13 @@ classDiagram
   }
   class RegraNegocioException {
   }
+  class AcessoNegadoException {
+  }
+  class Autorizacao {
+    +String CABECALHO$
+    +exigirAgente(tokenInformado)$ void
+    +perfilPrivilegiado(tipoPerfil)$ boolean
+  }
   class ErroResposta {
     -LocalDateTime dataHora
     -int status
@@ -27,6 +34,8 @@ classDiagram
     +tipoParametro(e, req) ResponseEntity~ErroResposta~
     +parametroAusente(e, req) ResponseEntity~ErroResposta~
     +rotaInexistente(e, req) ResponseEntity~ErroResposta~
+    +acessoNegado(e, req) ResponseEntity~ErroResposta~
+    +metodoNaoPermitido(e, req) ResponseEntity~ErroResposta~
     +conexao(e, req) ResponseEntity~ErroResposta~
     +banco(e, req) ResponseEntity~ErroResposta~
     +geral(e, req) ResponseEntity~ErroResposta~
@@ -55,6 +64,9 @@ classDiagram
   Exception <|-- ExcecoesConexao
   RuntimeException <|-- RecursoNaoEncontradoException
   RuntimeException <|-- RegraNegocioException
+  RuntimeException <|-- AcessoNegadoException
+  Autorizacao ..> AcessoNegadoException : lança
+  TratadorExcecoes ..> AcessoNegadoException : 403
   TratadorExcecoes ..> ErroResposta : devolve
   TratadorExcecoes ..> RecursoNaoEncontradoException : 404
   TratadorExcecoes ..> RegraNegocioException : 400
