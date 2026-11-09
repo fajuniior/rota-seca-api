@@ -1,0 +1,73 @@
+OK  200 GET    /                                             raiz
+OK  200 GET    /status                                       conexão banco
+OK  200 GET    /bairros                                      lista
+OK  200 GET    /usuarios                                     lista
+OK  200 GET    /nos-via                                      lista
+OK  200 GET    /trechos-via                                  lista
+OK  200 GET    /ocorrencias                                  lista
+OK  200 GET    /confirmacoes                                 lista
+OK  200 GET    /leituras-chuva                               lista
+OK  200 GET    /alertas                                      lista
+OK  200 GET    /pontos-apoio                                 lista
+OK  200 GET    /caminhos                                     lista
+OK  200 GET    /contatos                                     lista
+OK  200 GET    /notificacoes                                 lista
+OK  201 POST   /bairros                                      POST cria (id automático)
+OK  200 GET    /bairros/7                                    GET por id
+OK  200 PUT    /bairros/7                                    PUT altera
+OK  200 GET    /bairros/7                                    GET confere PUT
+OK  204 DELETE /bairros/7                                    DELETE
+OK  404 GET    /bairros/7                                    GET depois do DELETE  -> Bairro 7 não encontrado
+OK  404 DELETE /bairros/9999                                 DELETE inexistente  -> Bairro 9999 não encontrado
+OK  404 PUT    /bairros/9999                                 PUT inexistente  -> Bairro 9999 não encontrado
+OK  400 GET    /bairros/abc                                  id não numérico  -> Parâmetro 'id' com valor inválido
+OK  400 POST   /bairros                                      JSON inválido  -> JSON inválido ou campo com tipo incorreto
+OK  400 POST   /bairros                                      campo obrigatório  -> O campo nome é obrigatório
+OK  400 POST   /usuarios                                     domínio inválido  -> O campo tipoPerfil deve ser um destes valores: CIDADAO, AGENTE, ADMIN
+OK  409 POST   /usuarios                                     telefone duplicado (UNIQUE)  -> Registro duplicado: já existe um registro com estes dados
+OK  400 POST   /nos-via                                      FK inexistente  -> Referência inválida: um dos IDs informados não existe
+OK  409 DELETE /bairros/1                                    excluir pai com filhos  -> Não é possível excluir: existem registros que dependem deste
+OK  404 GET    /nao-existe                                   rota inexistente  -> Rota não encontrada
+OK  400 POST   /trechos-via                                  trecho ligando o mesmo nó  -> O trecho precisa ligar dois nós diferentes
+OK  201 POST   /ocorrencias                                  POST ocorrência (datas e status pelo sistema)
+OK  400 POST   /ocorrencias                                  tipo inválido  -> O campo tipo deve ser um destes valores: ALAGAMENTO, CORREGO_SUBINDO, VIA_BLOQUEADA
+OK  200 GET    /ocorrencias?ativas=true                      ativas inclui a nova
+OK  200 GET    /usuarios/2/avisos                            avisos do caminho do vizinho
+OK  400 POST   /ocorrencias/7/confirmacoes                   autor não confirma a própria  -> O autor não pode confirmar a própria ocorrência
+OK  201 POST   /ocorrencias/7/confirmacoes                   vizinho confirma
+OK  409 POST   /ocorrencias/7/confirmacoes                   confirmação duplicada  -> Registro duplicado: já existe um registro com estes dados
+OK  200 GET    /ocorrencias/7/confirmacoes                   lista confirmações
+OK  200 PUT    /ocorrencias/7                                PUT ocorrência pendente
+OK  400 PUT    /ocorrencias/7/validacao                      cidadão não valida  -> O usuário 1 não é agente da Defesa Civil
+OK  200 PUT    /ocorrencias/7/validacao                      agente valida
+OK  400 PUT    /ocorrencias/7                                validada não pode ser editada  -> Ocorrência já validada pela Defesa Civil não pode ser alterada
+OK  400 POST   /ocorrencias/7/confirmacoes                   descartada não recebe confirmação  -> Ocorrência descartada pela Defesa Civil não pode ser confirmada
+OK  204 DELETE /ocorrencias/7                                DELETE ocorrência (cascade confirmações)
+OK  201 POST   /alertas                                      alerta do modelo: nível pela probabilidade  -> Chuva forte prevista para a próxima hora.
+OK  200 GET    /bairros/1/alerta-atual                       alerta vigente do bairro  -> Chuva forte prevista para a próxima hora.
+OK  400 POST   /alertas                                      alerta de AGENTE sem agente  -> Alerta de origem AGENTE precisa do idAgente
+OK  400 POST   /alertas                                      probabilidade fora de 0..1  -> probChuvaIntensa deve estar entre 0 e 1
+OK  200 GET    /bairros/1/alertas                            histórico do bairro
+OK  200 GET    /bairros/1/leituras-chuva                     leituras do bairro
+OK  200 GET    /pontos-apoio?aberto=S                        filtro abertos
+OK  400 GET    /pontos-apoio?aberto=TALVEZ                   filtro inválido  -> O campo aberto deve ser um destes valores: S, N
+OK  200 PUT    /pontos-apoio/1/status?aberto=S&idAgente=5    agente abre ponto
+OK  400 PUT    /pontos-apoio/1/status?aberto=N&idAgente=1    cidadão não abre ponto  -> O usuário 1 não é agente da Defesa Civil
+OK  400 PUT    /pontos-apoio/1/status?aberto=N               parâmetro ausente  -> Parâmetro obrigatório ausente: idAgente
+OK  201 POST   /caminhos                                     POST caminho
+OK  400 POST   /caminhos                                     origem = destino  -> Origem e destino do caminho precisam ser diferentes
+OK  201 POST   /caminhos/6/trechos                           POST trecho no caminho (ordem automática)
+OK  200 PUT    /caminhos/6/trechos/1                         PUT trecho da posição
+OK  200 GET    /caminhos/6/trechos                           GET trechos
+OK  204 DELETE /caminhos/6/trechos/1                         DELETE posição
+OK  204 DELETE /caminhos/6                                   DELETE caminho
+OK  201 POST   /usuarios/1/bairros-acompanhados              POST bairro acompanhado
+OK  409 POST   /usuarios/1/bairros-acompanhados              duplicado  -> Registro duplicado: já existe um registro com estes dados
+OK  200 PUT    /usuarios/1/bairros-acompanhados/5            PUT motivo
+OK  200 GET    /usuarios/1/bairros-acompanhados              GET acompanhados
+OK  204 DELETE /usuarios/1/bairros-acompanhados/5            DELETE acompanhado
+OK  400 POST   /notificacoes                                 sem destinatário  -> Informe exatamente um destinatário: idUsuario ou idContato
+OK  201 POST   /notificacoes                                 válida
+OK  204 DELETE /notificacoes/9                               DELETE notificação
+OK  204 DELETE /alertas/7                                    DELETE alerta
+72 OK, 0 falhas

@@ -1,0 +1,764 @@
+{
+  "info": {
+    "name": "Rota Seca API — NovaCore",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    }
+  ],
+  "item": [
+    {
+      "name": "GET / — Informações da API",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": []
+        }
+      }
+    },
+    {
+      "name": "GET /status — Testa a conexão com o Oracle",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/status",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "status"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GET /bairros — Lista bairros",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/bairros",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "bairros"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GET /bairros/1 — Busca bairro por ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/bairros/1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "bairros",
+            "1"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST /bairros — Cadastra bairro (ID automático)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/bairros",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "bairros"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nome\": \"Bairro Novo\",\n  \"cidade\": \"Guarulhos\"\n}"
+        }
+      }
+    },
+    {
+      "name": "PUT /bairros/1 — Atualiza bairro",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/bairros/1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "bairros",
+            "1"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nome\": \"Pimentas\",\n  \"cidade\": \"Guarulhos\"\n}"
+        }
+      }
+    },
+    {
+      "name": "DELETE /bairros/99 — Exclui bairro",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/bairros/99",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "bairros",
+            "99"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GET /bairros/1/alerta-atual — Alerta vigente do bairro (US01)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/bairros/1/alerta-atual",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "bairros",
+            "1",
+            "alerta-atual"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GET /bairros/1/alertas — Histórico de alertas do bairro",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/bairros/1/alertas",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "bairros",
+            "1",
+            "alertas"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GET /bairros/1/leituras-chuva — Leituras de chuva do bairro",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/bairros/1/leituras-chuva",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "bairros",
+            "1",
+            "leituras-chuva"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GET /usuarios — Lista usuários",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/usuarios",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "usuarios"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST /usuarios — Cadastra usuário",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/usuarios",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "usuarios"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nomeExibicao\": \"Morador Teste\",\n  \"telefone\": \"11999990000\",\n  \"tipoPerfil\": \"CIDADAO\",\n  \"idBairro\": 1\n}"
+        }
+      }
+    },
+    {
+      "name": "GET /usuarios/1/avisos — Ocorrências ativas nos caminhos salvos (US02)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/usuarios/1/avisos",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "usuarios",
+            "1",
+            "avisos"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GET /usuarios/1/caminhos — Caminhos salvos do usuário",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/usuarios/1/caminhos",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "usuarios",
+            "1",
+            "caminhos"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GET /usuarios/1/contatos — Contatos de confiança do usuário",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/usuarios/1/contatos",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "usuarios",
+            "1",
+            "contatos"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GET /usuarios/1/bairros-acompanhados — Bairros de familiares acompanhados",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/usuarios/1/bairros-acompanhados",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "usuarios",
+            "1",
+            "bairros-acompanhados"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST /usuarios/1/bairros-acompanhados — Passa a acompanhar um bairro",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/usuarios/1/bairros-acompanhados",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "usuarios",
+            "1",
+            "bairros-acompanhados"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"idBairro\": 5,\n  \"motivo\": \"Familiar mora lá\"\n}"
+        }
+      }
+    },
+    {
+      "name": "DELETE /usuarios/1/bairros-acompanhados/5 — Deixa de acompanhar",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/usuarios/1/bairros-acompanhados/5",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "usuarios",
+            "1",
+            "bairros-acompanhados",
+            "5"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GET /ocorrencias — Lista ocorrências",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/ocorrencias",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "ocorrencias"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GET /ocorrencias?ativas=true — Só as ativas (não descartadas e não expiradas)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/ocorrencias?ativas=true",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "ocorrencias"
+          ],
+          "query": [
+            {
+              "key": "ativas",
+              "value": "true"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST /ocorrencias — Reporta ocorrência (status e validade definidos pela API)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/ocorrencias",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "ocorrencias"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"idTrecho\": 1,\n  \"idUsuario\": 1,\n  \"tipo\": \"ALAGAMENTO\",\n  \"urlFoto\": null\n}"
+        }
+      }
+    },
+    {
+      "name": "PUT /ocorrencias/1 — Corrige ocorrência ainda pendente",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/ocorrencias/1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "ocorrencias",
+            "1"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"tipo\": \"VIA_BLOQUEADA\"\n}"
+        }
+      }
+    },
+    {
+      "name": "POST /ocorrencias/1/confirmacoes — Vizinho confirma a ocorrência",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/ocorrencias/1/confirmacoes",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "ocorrencias",
+            "1",
+            "confirmacoes"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"idUsuario\": 2\n}"
+        }
+      }
+    },
+    {
+      "name": "GET /ocorrencias/1/confirmacoes — Confirmações da ocorrência",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/ocorrencias/1/confirmacoes",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "ocorrencias",
+            "1",
+            "confirmacoes"
+          ]
+        }
+      }
+    },
+    {
+      "name": "PUT /ocorrencias/1/validacao — Agente confirma ou descarta",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/ocorrencias/1/validacao",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "ocorrencias",
+            "1",
+            "validacao"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"idAgente\": 5,\n  \"stValidacao\": \"CONFIRMADA\"\n}"
+        }
+      }
+    },
+    {
+      "name": "POST /alertas — Cria alerta (nível pela probabilidade)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/alertas",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "alertas"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"idBairro\": 1,\n  \"mensagem\": \"Chuva forte prevista para a próxima hora.\",\n  \"probChuvaIntensa\": 0.82,\n  \"origem\": \"MODELO\"\n}"
+        }
+      }
+    },
+    {
+      "name": "GET /pontos-apoio?aberto=S — Pontos de apoio abertos",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/pontos-apoio?aberto=S",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pontos-apoio"
+          ],
+          "query": [
+            {
+              "key": "aberto",
+              "value": "S"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "PUT /pontos-apoio/1/status?aberto=S&idAgente=5 — Agente abre/fecha ponto",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/pontos-apoio/1/status?aberto=S&idAgente=5",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pontos-apoio",
+            "1",
+            "status"
+          ],
+          "query": [
+            {
+              "key": "aberto",
+              "value": "S"
+            },
+            {
+              "key": "idAgente",
+              "value": "5"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST /caminhos — Salva caminho",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/caminhos",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "caminhos"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"idUsuario\": 1,\n  \"nome\": \"Casa até o trabalho\",\n  \"idNoOrigem\": 1,\n  \"idNoDestino\": 2\n}"
+        }
+      }
+    },
+    {
+      "name": "GET /caminhos/1/trechos — Trechos do caminho em ordem",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/caminhos/1/trechos",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "caminhos",
+            "1",
+            "trechos"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST /caminhos/1/trechos — Adiciona trecho ao caminho",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/caminhos/1/trechos",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "caminhos",
+            "1",
+            "trechos"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"idTrecho\": 3\n}"
+        }
+      }
+    }
+  ]
+}
