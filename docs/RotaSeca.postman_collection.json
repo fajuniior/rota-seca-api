@@ -6,7 +6,7 @@
   "variable": [
     {
       "key": "baseUrl",
-      "value": "http://localhost:8080"
+      "value": "https://rota-seca-api.onrender.com"
     }
   ],
   "item": [

@@ -4,6 +4,14 @@ API RESTful em Java/Spring Boot da **Rota Seca**, solução da Global Solution 2
 
 > Protótipo acadêmico com dados simulados. Não substitui as orientações da Defesa Civil (199).
 
+## Links
+
+- **API publicada (Render):** https://rota-seca-api.onrender.com
+- **Teste do banco:** https://rota-seca-api.onrender.com/status
+- **Repositório:** https://github.com/fajuniior/rota-seca-api
+
+> No plano gratuito do Render, a primeira requisição depois de 15 minutos parada pode levar cerca de 1 minuto.
+
 ## Equipe
 
 | Nome | RM |
