@@ -61,6 +61,8 @@ Fluxo de uma requisição: `Controller → BO (regras) → DAO (SQL) → Oracle`
    | `DB_PASSWORD` | sua senha Oracle |
    | `DB_URL` | opcional; padrão `jdbc:oracle:thin:@oracle.fiap.com.br:1521:orcl` |
 
+   | `AGENTE_TOKEN` | credencial das operações de agente (ver abaixo) |
+
    A senha **não fica no código** porque o repositório é público.
 4. Execute `RotaSecaApplication` ou, no terminal: `./mvnw spring-boot:run` (Windows: `mvnw.cmd spring-boot:run`).
 5. Acesse `http://localhost:8080/status` — deve responder `{"api":"OK","banco":"OK"}`.
@@ -71,7 +73,7 @@ Para testar todos os endpoints, importe `docs/RotaSeca.postman_collection.json` 
 
 1. *New > Web Service* > conectar este repositório do GitHub.
 2. Runtime: **Docker** (o `Dockerfile` já está na raiz). Plano: Free.
-3. Em *Environment*, criar `DB_USER` e `DB_PASSWORD`.
+3. Em *Environment*, criar `DB_USER`, `DB_PASSWORD` e `AGENTE_TOKEN`.
 4. Após o deploy, abrir `https://<nome-do-servico>.onrender.com/status`.
 
 No plano gratuito o serviço "dorme" depois de 15 minutos sem uso; a primeira requisição depois disso demora cerca de 1 minuto.
@@ -104,13 +106,23 @@ Endpoints de negócio:
 | GET/POST/PUT/DELETE | `/caminhos/{id}/trechos[/{nrOrdem}]` | Trechos do caminho, em ordem | US03 |
 | GET | `/` e `/status` | Informações da API e teste do banco | — |
 
+## Operações de agente (Defesa Civil simulada)
+
+A integração com a Defesa Civil é **simulada** nesta versão acadêmica. As operações oficiais exigem o cabeçalho `X-Token-Agente` com o valor da variável de ambiente `AGENTE_TOKEN` (o valor não fica no GitHub; está na documentação entregue ao professor):
+
+- `PUT /ocorrencias/{id}/validacao`
+- `POST`, `PUT` e `DELETE` em `/alertas` e em `/pontos-apoio`, e `PUT /pontos-apoio/{id}/status`
+- criar, alterar ou excluir usuários com perfil `AGENTE` ou `ADMIN`
+
+Sem o cabeçalho, ou com valor errado, a API responde `403`. Se `AGENTE_TOKEN` não estiver configurada, essas operações ficam bloqueadas. O cadastro de cidadãos continua livre.
+
 ## Regras de negócio implementadas
 
 - **Ocorrência**: a API define a data de registro, o status `PENDENTE` e a validade de 3 horas (informação velha deixa de gerar aviso); a foto é opcional. Depois de validada pela Defesa Civil, não pode mais ser editada.
-- **Confirmação**: o autor não confirma a própria ocorrência; não dá para confirmar ocorrência descartada ou expirada; cada morador confirma uma vez (`409`).
+- **Confirmação**: o autor não confirma a própria ocorrência; não dá para confirmar ocorrência descartada ou expirada; cada morador confirma uma vez (`409`). Depois de registrada, a confirmação não pode ser alterada (sem `PUT`; para corrigir, exclui-se e confirma-se de novo).
 - **Validação**: só usuário com perfil `AGENTE` confirma/descarta ocorrência e abre/fecha ponto de apoio.
 - **Alerta**: quando vem do modelo de Data Science sem nível, o nível sai da probabilidade de chuva intensa (`< 0,40` informativo, `< 0,75` atenção, senão grave). Alerta de origem `AGENTE` exige um agente válido.
-- **Notificação**: exatamente uma origem (alerta **ou** ocorrência) e um destinatário (usuário **ou** contato).
+- **Notificação**: a API registra o aviso no banco; o envio real de push/SMS é simulado nesta versão. Exatamente uma origem (alerta **ou** ocorrência) e um destinatário (usuário **ou** contato).
 - Horário sempre de Brasília (`America/Sao_Paulo`), mesmo com o servidor do Render em UTC.
 
 ## Tratamento de exceções
@@ -121,6 +133,8 @@ Endpoints de negócio:
 | Regra de negócio, campo obrigatório, valor fora do domínio, JSON inválido, ID não numérico | 400 |
 | ID referenciado não existe (FK) | 400 |
 | Registro duplicado (UNIQUE) ou exclusão de registro com dependentes | 409 |
+| Operação de agente sem credencial válida | 403 |
+| Método não permitido na rota (ex.: `PUT /confirmacoes/1`) | 405 |
 | Banco fora do ar ou variáveis não configuradas | 503 |
 
 Formato do erro:
@@ -136,6 +150,6 @@ Formato do erro:
 
 ## Testes
 
-`docs/resultado_testes.txt` traz a execução de 72 cenários (CRUD de todas as tabelas, regras de negócio e erros), todos aprovados.
+`docs/resultado_testes.txt` traz a execução de 80 cenários (CRUD de todas as tabelas, regras de negócio, credencial de agente e erros), todos aprovados.
 
 Os dados de exemplo do banco são de 16/02/2026, então as ocorrências antigas já estão expiradas: para testar confirmação e avisos, crie antes uma ocorrência nova com `POST /ocorrencias`.

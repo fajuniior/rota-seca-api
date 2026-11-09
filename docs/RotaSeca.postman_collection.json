@@ -7,6 +7,10 @@
     {
       "key": "baseUrl",
       "value": "https://rota-seca-api.onrender.com"
+    },
+    {
+      "key": "tokenAgente",
+      "value": "(ver documentação em PDF)"
     }
   ],
   "item": [
@@ -581,6 +585,10 @@
           {
             "key": "Content-Type",
             "value": "application/json"
+          },
+          {
+            "key": "X-Token-Agente",
+            "value": "{{tokenAgente}}"
           }
         ],
         "url": {
@@ -608,6 +616,10 @@
           {
             "key": "Content-Type",
             "value": "application/json"
+          },
+          {
+            "key": "X-Token-Agente",
+            "value": "{{tokenAgente}}"
           }
         ],
         "url": {
@@ -660,6 +672,10 @@
           {
             "key": "Content-Type",
             "value": "application/json"
+          },
+          {
+            "key": "X-Token-Agente",
+            "value": "{{tokenAgente}}"
           }
         ],
         "url": {

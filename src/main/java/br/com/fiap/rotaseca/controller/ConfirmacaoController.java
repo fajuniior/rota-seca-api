@@ -36,11 +36,7 @@ public class ConfirmacaoController {
         return ResponseEntity.created(location).body(criado);
     }
 
-    // Atualizar
-    @PutMapping("/{id}")
-    public ResponseEntity<Confirmacao> atualizarRs(@PathVariable int id, @RequestBody Confirmacao confirmacao) throws SQLException, ExcecoesConexao {
-        return ResponseEntity.ok(confirmacaoBo.atualizarBo(id, confirmacao));
-    }
+    // Não há PUT: a confirmação é imutável. Para corrigir, exclua e confirme de novo (passando pelas regras).
 
     // Deletar
     @DeleteMapping("/{id}")

@@ -12,6 +12,9 @@ OK  200 GET    /pontos-apoio                                 lista
 OK  200 GET    /caminhos                                     lista
 OK  200 GET    /contatos                                     lista
 OK  200 GET    /notificacoes                                 lista
+OK  403 POST   /usuarios                                     cidadão se cadastrando como AGENTE  -> Operação exclusiva de agentes da Defesa Civil: informe uma credencial válida no cabeçalho X-Token-Agente
+OK  403 DELETE /usuarios/5                                   excluir agente sem credencial  -> Operação exclusiva de agentes da Defesa Civil: informe uma credencial válida no cabeçalho X-Token-Agente
+OK  201 POST   /usuarios                                     cadastro de cidadão continua livre
 OK  201 POST   /bairros                                      POST cria (id automático)
 OK  200 GET    /bairros/7                                    GET por id
 OK  200 PUT    /bairros/7                                    PUT altera
@@ -38,11 +41,15 @@ OK  201 POST   /ocorrencias/7/confirmacoes                   vizinho confirma
 OK  409 POST   /ocorrencias/7/confirmacoes                   confirmação duplicada  -> Registro duplicado: já existe um registro com estes dados
 OK  200 GET    /ocorrencias/7/confirmacoes                   lista confirmações
 OK  200 PUT    /ocorrencias/7                                PUT ocorrência pendente
+OK  403 PUT    /ocorrencias/7/validacao                      validar sem credencial  -> Operação exclusiva de agentes da Defesa Civil: informe uma credencial válida no cabeçalho X-Token-Agente
+OK  403 PUT    /ocorrencias/7/validacao                      credencial errada  -> Operação exclusiva de agentes da Defesa Civil: informe uma credencial válida no cabeçalho X-Token-Agente
 OK  400 PUT    /ocorrencias/7/validacao                      cidadão não valida  -> O usuário 1 não é agente da Defesa Civil
-OK  200 PUT    /ocorrencias/7/validacao                      agente valida
+OK  405 PUT    /confirmacoes/1                               PUT em confirmação (imutável)  -> Método PUT não é permitido nesta rota
+OK  200 PUT    /ocorrencias/7/validacao                      agente valida (com credencial)
 OK  400 PUT    /ocorrencias/7                                validada não pode ser editada  -> Ocorrência já validada pela Defesa Civil não pode ser alterada
 OK  400 POST   /ocorrencias/7/confirmacoes                   descartada não recebe confirmação  -> Ocorrência descartada pela Defesa Civil não pode ser confirmada
 OK  204 DELETE /ocorrencias/7                                DELETE ocorrência (cascade confirmações)
+OK  403 POST   /alertas                                      alerta sem credencial  -> Operação exclusiva de agentes da Defesa Civil: informe uma credencial válida no cabeçalho X-Token-Agente
 OK  201 POST   /alertas                                      alerta do modelo: nível pela probabilidade  -> Chuva forte prevista para a próxima hora.
 OK  200 GET    /bairros/1/alerta-atual                       alerta vigente do bairro  -> Chuva forte prevista para a próxima hora.
 OK  400 POST   /alertas                                      alerta de AGENTE sem agente  -> Alerta de origem AGENTE precisa do idAgente
@@ -51,6 +58,7 @@ OK  200 GET    /bairros/1/alertas                            histórico do bairr
 OK  200 GET    /bairros/1/leituras-chuva                     leituras do bairro
 OK  200 GET    /pontos-apoio?aberto=S                        filtro abertos
 OK  400 GET    /pontos-apoio?aberto=TALVEZ                   filtro inválido  -> O campo aberto deve ser um destes valores: S, N
+OK  403 PUT    /pontos-apoio/1/status?aberto=S&idAgente=5    abrir ponto sem credencial  -> Operação exclusiva de agentes da Defesa Civil: informe uma credencial válida no cabeçalho X-Token-Agente
 OK  200 PUT    /pontos-apoio/1/status?aberto=S&idAgente=5    agente abre ponto
 OK  400 PUT    /pontos-apoio/1/status?aberto=N&idAgente=1    cidadão não abre ponto  -> O usuário 1 não é agente da Defesa Civil
 OK  400 PUT    /pontos-apoio/1/status?aberto=N               parâmetro ausente  -> Parâmetro obrigatório ausente: idAgente
@@ -70,4 +78,4 @@ OK  400 POST   /notificacoes                                 sem destinatário  
 OK  201 POST   /notificacoes                                 válida
 OK  204 DELETE /notificacoes/9                               DELETE notificação
 OK  204 DELETE /alertas/7                                    DELETE alerta
-72 OK, 0 falhas
+80 OK, 0 falhas

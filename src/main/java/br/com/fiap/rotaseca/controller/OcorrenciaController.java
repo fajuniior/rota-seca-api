@@ -1,5 +1,6 @@
 package br.com.fiap.rotaseca.controller;
 
+import br.com.fiap.rotaseca.bo.Autorizacao;
 import br.com.fiap.rotaseca.bo.ConfirmacaoBo;
 import br.com.fiap.rotaseca.bo.OcorrenciaBo;
 import br.com.fiap.rotaseca.dto.ValidacaoRequest;
@@ -49,8 +50,10 @@ public class OcorrenciaController {
 
     // Validar (agente da Defesa Civil)
     @PutMapping("/{id}/validacao")
-    public ResponseEntity<Ocorrencia> validarRs(@PathVariable int id, @RequestBody ValidacaoRequest pedido)
+    public ResponseEntity<Ocorrencia> validarRs(@PathVariable int id, @RequestBody ValidacaoRequest pedido,
+                                                @RequestHeader(value = Autorizacao.CABECALHO, required = false) String token)
             throws SQLException, ExcecoesConexao {
+        Autorizacao.exigirAgente(token);
         return ResponseEntity.ok(ocorrenciaBo.validarBo(id, pedido));
     }
 

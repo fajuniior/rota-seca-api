@@ -59,16 +59,6 @@ public class ConfirmacaoBo {
         return confirmacao;
     }
 
-    // Atualizar
-    public Confirmacao atualizarBo(int id, Confirmacao confirmacao) throws SQLException, ExcecoesConexao {
-        Validacao.corpo(confirmacao);
-        confirmacao.setIdConfirmacao(id);
-        if (confirmacao.getDtConfirmacao() == null) confirmacao.setDtConfirmacao(Relogio.agora());
-        if (!confirmacaoDAO.atualizar(confirmacao)) {
-            throw new RecursoNaoEncontradoException("Confirmacao " + id + " não encontrada");
-        }
-        return confirmacao;
-    }
 
     // Deletar
     public void deletarBo(int id) throws SQLException, ExcecoesConexao {

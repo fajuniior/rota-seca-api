@@ -1,5 +1,6 @@
 package br.com.fiap.rotaseca.controller;
 
+import br.com.fiap.rotaseca.bo.Autorizacao;
 import br.com.fiap.rotaseca.bo.UsuarioBo;
 import br.com.fiap.rotaseca.entities.Usuario;
 import br.com.fiap.rotaseca.excecoes.ExcecoesConexao;
@@ -30,7 +31,9 @@ public class UsuarioController {
 
     // Inserir
     @PostMapping
-    public ResponseEntity<Usuario> inserirRs(@RequestBody Usuario usuario) throws SQLException, ExcecoesConexao {
+    public ResponseEntity<Usuario> inserirRs(@RequestBody Usuario usuario, @RequestHeader(value = Autorizacao.CABECALHO, required = false) String token)
+            throws SQLException, ExcecoesConexao {
+        if (usuario != null && Autorizacao.perfilPrivilegiado(usuario.getTipoPerfil())) Autorizacao.exigirAgente(token);
         Usuario criado = usuarioBo.inserirBo(usuario);
         URI location = URI.create("/usuarios/" + criado.getIdUsuario());
         return ResponseEntity.created(location).body(criado);
@@ -38,13 +41,20 @@ public class UsuarioController {
 
     // Atualizar
     @PutMapping("/{id}")
-    public ResponseEntity<Usuario> atualizarRs(@PathVariable int id, @RequestBody Usuario usuario) throws SQLException, ExcecoesConexao {
+    public ResponseEntity<Usuario> atualizarRs(@PathVariable int id, @RequestBody Usuario usuario,
+                                               @RequestHeader(value = Autorizacao.CABECALHO, required = false) String token)
+            throws SQLException, ExcecoesConexao {
+        // Promover alguém a agente, ou alterar um agente existente, é operação oficial
+        if ((usuario != null && Autorizacao.perfilPrivilegiado(usuario.getTipoPerfil()))
+                || Autorizacao.perfilPrivilegiado(usuarioBo.buscarPorIdBo(id).getTipoPerfil())) Autorizacao.exigirAgente(token);
         return ResponseEntity.ok(usuarioBo.atualizarBo(id, usuario));
     }
 
     // Deletar
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarRs(@PathVariable int id) throws SQLException, ExcecoesConexao {
+    public ResponseEntity<Void> deletarRs(@PathVariable int id, @RequestHeader(value = Autorizacao.CABECALHO, required = false) String token)
+            throws SQLException, ExcecoesConexao {
+        if (Autorizacao.perfilPrivilegiado(usuarioBo.buscarPorIdBo(id).getTipoPerfil())) Autorizacao.exigirAgente(token);
         usuarioBo.deletarBo(id);
         return ResponseEntity.noContent().build();
     }

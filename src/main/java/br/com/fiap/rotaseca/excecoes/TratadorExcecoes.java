@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -65,6 +66,18 @@ public class TratadorExcecoes {
     @ExceptionHandler(NoResourceFoundException.class)
     public ResponseEntity<ErroResposta> rotaInexistente(NoResourceFoundException e, HttpServletRequest req) {
         return resposta(HttpStatus.NOT_FOUND, "Rota não encontrada", req);
+    }
+
+    // 403 - operação exclusiva de agente sem credencial válida
+    @ExceptionHandler(AcessoNegadoException.class)
+    public ResponseEntity<ErroResposta> acessoNegado(AcessoNegadoException e, HttpServletRequest req) {
+        return resposta(HttpStatus.FORBIDDEN, e.getMessage(), req);
+    }
+
+    // 405 - método HTTP não permitido nesta rota (ex.: PUT em /confirmacoes)
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<ErroResposta> metodoNaoPermitido(HttpRequestMethodNotSupportedException e, HttpServletRequest req) {
+        return resposta(HttpStatus.METHOD_NOT_ALLOWED, "Método " + e.getMethod() + " não é permitido nesta rota", req);
     }
 
     // 503 - banco fora do ar ou credenciais erradas
