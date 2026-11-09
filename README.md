@@ -80,7 +80,7 @@ No plano gratuito o serviço "dorme" depois de 15 minutos sem uso; a primeira re
 
 ## Endpoints
 
-Todas as tabelas têm CRUD completo (`GET` lista, `GET /{id}`, `POST`, `PUT /{id}`, `DELETE /{id}`):
+As tabelas seguem o padrão CRUD (`GET` lista, `GET /{id}`, `POST`, `PUT /{id}`, `DELETE /{id}`), com exceções justificadas pelas regras de negócio: `/confirmacoes` não tem `PUT` (a confirmação é imutável) e as escritas em `/alertas` e `/pontos-apoio` exigem a credencial de agente:
 `/bairros`, `/usuarios`, `/nos-via`, `/trechos-via`, `/ocorrencias`, `/confirmacoes`, `/leituras-chuva`, `/alertas`, `/pontos-apoio`, `/caminhos`, `/contatos`, `/notificacoes`.
 No `POST`, o ID pode ser omitido: a API gera o próximo.
 
@@ -108,7 +108,7 @@ Endpoints de negócio:
 
 ## Operações de agente (Defesa Civil simulada)
 
-A integração com a Defesa Civil é **simulada** nesta versão acadêmica. As operações oficiais exigem o cabeçalho `X-Token-Agente` com o valor da variável de ambiente `AGENTE_TOKEN` (o valor não fica no GitHub; está na documentação entregue ao professor):
+A integração com a Defesa Civil é **simulada** nesta versão acadêmica. As operações oficiais exigem o cabeçalho `X-Token-Agente` com o valor da variável de ambiente `AGENTE_TOKEN` (o valor não fica no GitHub nem no PDF; é informado ao professor no arquivo `LINKS.txt` da entrega):
 
 - `PUT /ocorrencias/{id}/validacao`
 - `POST`, `PUT` e `DELETE` em `/alertas` e em `/pontos-apoio`, e `PUT /pontos-apoio/{id}/status`
