@@ -1,0 +1,139 @@
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#eef4fb','primaryBorderColor':'#1b6ca8','primaryTextColor':'#0b2545','lineColor':'#44506a','fontFamily':'Arial','fontSize':'13px'}}}%%
+classDiagram
+  direction LR
+  class Bairro {
+    -int idBairro
+    -String nome
+    -String cidade
+  }
+  class Usuario {
+    -int idUsuario
+    -String nomeExibicao
+    -String telefone
+    -String tipoPerfil
+    -Integer idBairro
+    -LocalDateTime dtCadastro
+    -String stAtivo
+  }
+  class NoVia {
+    -int idNo
+    -int idBairro
+    -String referencia
+    -double latitude
+    -double longitude
+  }
+  class TrechoVia {
+    -int idTrecho
+    -int idNoOrigem
+    -int idNoDestino
+    -String nomeVia
+    -int distanciaM
+    -int nivelRisco
+    -String stTrecho
+  }
+  class Ocorrencia {
+    -int idOcorrencia
+    -int idTrecho
+    -int idUsuario
+    -String tipo
+    -LocalDateTime dtRegistro
+    -String urlFoto
+    -String stValidacao
+    -Integer idAgente
+    -LocalDateTime dtValidacao
+    -LocalDateTime dtExpiracao
+  }
+  class Confirmacao {
+    -int idConfirmacao
+    -int idOcorrencia
+    -int idUsuario
+    -LocalDateTime dtConfirmacao
+  }
+  class LeituraChuva {
+    -int idLeitura
+    -int idBairro
+    -LocalDateTime dtLeitura
+    -double precipitacaoMm
+    -String fonte
+  }
+  class Alerta {
+    -int idAlerta
+    -int idBairro
+    -String nivel
+    -String mensagem
+    -Double probChuvaIntensa
+    -String origem
+    -Integer idAgente
+    -LocalDateTime dtInicio
+    -LocalDateTime dtFim
+  }
+  class PontoApoio {
+    -int idPonto
+    -int idBairro
+    -Integer idNo
+    -String nome
+    -String tipo
+    -String endereco
+    -Integer capacidade
+    -String horario
+    -String stAberto
+    -String temBanheiro
+    -LocalDateTime dtAtualizacao
+  }
+  class CaminhoSalvo {
+    -int idCaminho
+    -int idUsuario
+    -String nome
+    -int idNoOrigem
+    -int idNoDestino
+    -LocalDateTime dtCriacao
+  }
+  class CaminhoTrecho {
+    -int idCaminho
+    -int nrOrdem
+    -int idTrecho
+  }
+  class ContatoConfianca {
+    -int idContato
+    -int idUsuario
+    -String nome
+    -String telefone
+    -String parentesco
+    -String stRecebeGrave
+  }
+  class BairroAcompanhado {
+    -int idUsuario
+    -int idBairro
+    -String motivo
+    -LocalDateTime dtInicio
+  }
+  class Notificacao {
+    -long idNotificacao
+    -Integer idAlerta
+    -Integer idOcorrencia
+    -Integer idUsuario
+    -Integer idContato
+    -String canal
+    -LocalDateTime dtEnvio
+    -String stEntrega
+  }
+  Bairro "1" -- "0..*" Usuario : idBairro
+  Bairro "1" -- "1..*" NoVia : idBairro
+  NoVia "1" -- "0..*" TrechoVia : origem / destino
+  TrechoVia "1" -- "0..*" Ocorrencia : idTrecho
+  Usuario "1" -- "0..*" Ocorrencia : autor / agente
+  Ocorrencia "1" *-- "0..*" Confirmacao : idOcorrencia
+  Usuario "1" -- "0..*" Confirmacao : idUsuario
+  Bairro "1" -- "0..*" LeituraChuva
+  Bairro "1" -- "0..*" Alerta
+  Bairro "1" -- "0..*" PontoApoio
+  NoVia "0..1" -- "0..*" PontoApoio : idNo
+  Usuario "1" -- "0..*" CaminhoSalvo
+  CaminhoSalvo "1" -- "1..*" CaminhoTrecho
+  TrechoVia "1" -- "0..*" CaminhoTrecho
+  Usuario "1" -- "0..*" ContatoConfianca
+  Usuario "1" -- "0..*" BairroAcompanhado
+  Bairro "1" -- "0..*" BairroAcompanhado
+  Alerta "0..1" -- "0..*" Notificacao
+  Ocorrencia "0..1" -- "0..*" Notificacao
+  ContatoConfianca "0..1" -- "0..*" Notificacao

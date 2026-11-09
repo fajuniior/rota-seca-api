@@ -1,0 +1,64 @@
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#eef4fb','primaryBorderColor':'#1b6ca8','primaryTextColor':'#0b2545','lineColor':'#44506a','fontFamily':'Arial','fontSize':'13px'}}}%%
+classDiagram
+  direction LR
+  class Exception
+  class RuntimeException
+  class ExcecoesConexao {
+    -mensagemPara(e)$ String
+  }
+  class RecursoNaoEncontradoException {
+  }
+  class RegraNegocioException {
+  }
+  class ErroResposta {
+    -LocalDateTime dataHora
+    -int status
+    -String erro
+    -String mensagem
+    -String caminho
+  }
+  class TratadorExcecoes {
+    <<RestControllerAdvice>>
+    -Logger LOG$
+    -resposta(status, mensagem, req) ResponseEntity~ErroResposta~
+    +naoEncontrado(e, req) ResponseEntity~ErroResposta~
+    +regraNegocio(e, req) ResponseEntity~ErroResposta~
+    +jsonInvalido(e, req) ResponseEntity~ErroResposta~
+    +tipoParametro(e, req) ResponseEntity~ErroResposta~
+    +parametroAusente(e, req) ResponseEntity~ErroResposta~
+    +rotaInexistente(e, req) ResponseEntity~ErroResposta~
+    +conexao(e, req) ResponseEntity~ErroResposta~
+    +banco(e, req) ResponseEntity~ErroResposta~
+    +geral(e, req) ResponseEntity~ErroResposta~
+  }
+  class ConexaoFactory {
+    -String URL_PADRAO$
+    -variavel(nome, padrao)$ String
+    +conexao() Connection
+  }
+  class CorsConfig {
+    <<Configuration>>
+    +addCorsMappings(registry) void
+  }
+  class WebMvcConfigurer {
+    <<interface>>
+  }
+  class StatusController {
+    <<RestController>>
+    +inicio() Map~String, Object~
+    +status() ResponseEntity~Map~
+  }
+  class RotaSecaApplication {
+    <<SpringBootApplication>>
+    +main(args)$ void
+  }
+  Exception <|-- ExcecoesConexao
+  RuntimeException <|-- RecursoNaoEncontradoException
+  RuntimeException <|-- RegraNegocioException
+  TratadorExcecoes ..> ErroResposta : devolve
+  TratadorExcecoes ..> RecursoNaoEncontradoException : 404
+  TratadorExcecoes ..> RegraNegocioException : 400
+  TratadorExcecoes ..> ExcecoesConexao : 503
+  ConexaoFactory ..> ExcecoesConexao : lança
+  WebMvcConfigurer <|.. CorsConfig
+  StatusController ..> ConexaoFactory

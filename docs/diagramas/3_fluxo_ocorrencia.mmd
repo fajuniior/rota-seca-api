@@ -1,0 +1,103 @@
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#eef4fb','primaryBorderColor':'#1b6ca8','primaryTextColor':'#0b2545','lineColor':'#44506a','fontFamily':'Arial','fontSize':'13px'}}}%%
+classDiagram
+  direction TB
+  class OcorrenciaController {
+    <<RestController>>
+    ~OcorrenciaBo ocorrenciaBo
+    ~ConfirmacaoBo confirmacaoBo
+    +selecionarRs(ativas) ArrayList~Ocorrencia~
+    +buscarPorIdRs(id) Ocorrencia
+    +inserirRs(ocorrencia) ResponseEntity~Ocorrencia~
+    +atualizarRs(id, ocorrencia) ResponseEntity~Ocorrencia~
+    +validarRs(id, pedido) ResponseEntity~Ocorrencia~
+    +deletarRs(id) ResponseEntity~Void~
+    +confirmacoesRs(id) ArrayList~Confirmacao~
+    +confirmarRs(id, confirmacao) ResponseEntity~Confirmacao~
+  }
+  class OcorrenciaBo {
+    +int HORAS_VALIDADE$
+    ~OcorrenciaDAO ocorrenciaDAO
+    +selecionarBo() ArrayList~Ocorrencia~
+    +selecionarAtivasBo() ArrayList~Ocorrencia~
+    +buscarPorIdBo(id) Ocorrencia
+    +inserirBo(ocorrencia) Ocorrencia
+    +atualizarBo(id, dados) Ocorrencia
+    +validarBo(id, pedido) Ocorrencia
+    +deletarBo(id) void
+  }
+  class ConfirmacaoBo {
+    ~ConfirmacaoDAO confirmacaoDAO
+    +selecionarBo() ArrayList~Confirmacao~
+    +selecionarPorOcorrenciaBo(idOcorrencia) ArrayList~Confirmacao~
+    +buscarPorIdBo(id) Confirmacao
+    +inserirBo(confirmacao) Confirmacao
+    +atualizarBo(id, confirmacao) Confirmacao
+    +deletarBo(id) void
+  }
+  class UsuarioBo {
+    ~UsuarioDAO usuarioDAO
+    +buscarPorIdBo(id) Usuario
+    +exigirAgente(idUsuario) Usuario
+    +avisosDosCaminhosBo(idUsuario) List~AvisoCaminho~
+  }
+  class OcorrenciaDAO {
+    +inserir(ocorrencia) String
+    +deletar(id) boolean
+    +atualizar(ocorrencia) boolean
+    +selecionar() List~Ocorrencia~
+    +buscarPorId(id) Ocorrencia
+    +proximoId() int
+    #consultar(sql, parametros) List~Ocorrencia~
+    -montar(rs) Ocorrencia
+    +selecionarAtivas(agora) List~Ocorrencia~
+    +validar(idOcorrencia, status, idAgente, data) boolean
+  }
+  class ConfirmacaoDAO {
+    +inserir(confirmacao) String
+    +deletar(id) boolean
+    +atualizar(confirmacao) boolean
+    +selecionar() List~Confirmacao~
+    +buscarPorId(id) Confirmacao
+    +proximoId() int
+    #consultar(sql, parametros) List~Confirmacao~
+    -montar(rs) Confirmacao
+    +selecionarPorOcorrencia(idOcorrencia) List~Confirmacao~
+  }
+  class Ocorrencia {
+    getters e setters
+  }
+  class Confirmacao {
+    getters e setters
+  }
+  class ValidacaoRequest {
+    -int idAgente
+    -String stValidacao
+  }
+  class ConexaoFactory {
+    -String URL_PADRAO$
+    -variavel(nome, padrao)$ String
+    +conexao() Connection
+  }
+  class Relogio {
+    +ZoneId FUSO$
+    +agora()$ LocalDateTime
+  }
+  class Validacao {
+    +vazio(valor)$ boolean
+    +corpo(objeto)$ void
+    +obrigatorio(valor, campo)$ void
+    +dominio(valor, campo, permitidos)$ void
+  }
+  OcorrenciaController --> OcorrenciaBo : usa
+  OcorrenciaController --> ConfirmacaoBo : usa
+  OcorrenciaController ..> ValidacaoRequest : recebe
+  OcorrenciaBo --> OcorrenciaDAO : usa
+  OcorrenciaBo ..> UsuarioBo : exige agente
+  ConfirmacaoBo --> ConfirmacaoDAO : usa
+  ConfirmacaoBo ..> OcorrenciaBo : busca ocorrência
+  OcorrenciaDAO ..> Ocorrencia : monta
+  ConfirmacaoDAO ..> Confirmacao : monta
+  OcorrenciaDAO ..> ConexaoFactory : abre conexão
+  ConfirmacaoDAO ..> ConexaoFactory : abre conexão
+  OcorrenciaBo ..> Relogio
+  OcorrenciaBo ..> Validacao

@@ -1,0 +1,59 @@
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#eef4fb','primaryBorderColor':'#1b6ca8','primaryTextColor':'#0b2545','lineColor':'#44506a','fontFamily':'Arial','fontSize':'13px'}}}%%
+classDiagram
+  direction LR
+  class BairroController {
+    <<RestController>>
+    ~BairroBo bairroBo
+    +selecionarRs() ArrayList~Bairro~
+    +buscarPorIdRs(id) Bairro
+    +inserirRs(bairro) ResponseEntity~Bairro~
+    +atualizarRs(id, bairro) ResponseEntity~Bairro~
+    +deletarRs(id) ResponseEntity~Void~
+    +alertaAtualRs(id) Alerta
+    +alertasRs(id) ArrayList~Alerta~
+    +leiturasRs(id) ArrayList~LeituraChuva~
+  }
+  class BairroBo {
+    ~BairroDAO bairroDAO
+    +selecionarBo() ArrayList~Bairro~
+    +buscarPorIdBo(id) Bairro
+    +inserirBo(bairro) Bairro
+    +atualizarBo(id, bairro) Bairro
+    +deletarBo(id) void
+    -validar(bairro) void
+  }
+  class BairroDAO {
+    -String COLUNAS$
+    +inserir(bairro) String
+    +deletar(id) boolean
+    +atualizar(bairro) boolean
+    +selecionar() List~Bairro~
+    +buscarPorId(id) Bairro
+    +proximoId() int
+    #consultar(sql, parametros) List~Bairro~
+    -montar(rs) Bairro
+  }
+  class Bairro {
+    -int idBairro
+    -String nome
+    -String cidade
+    +getIdBairro() int
+    +setIdBairro(idBairro) void
+    +getNome() String
+    +setNome(nome) void
+    +getCidade() String
+    +setCidade(cidade) void
+  }
+  class JdbcUtil {
+    +setInteger(stmt, indice, valor)$ void
+    +setDouble(stmt, indice, valor)$ void
+    +setDataHora(stmt, indice, valor)$ void
+    +getInteger(rs, coluna)$ Integer
+    +getDouble(rs, coluna)$ Double
+    +getDataHora(rs, coluna)$ LocalDateTime
+    +preencher(stmt, parametros)$ void
+  }
+  BairroController --> BairroBo
+  BairroBo --> BairroDAO
+  BairroDAO ..> Bairro
+  BairroDAO ..> JdbcUtil

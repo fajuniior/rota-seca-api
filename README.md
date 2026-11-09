@@ -129,6 +129,11 @@ Formato do erro:
 {"dataHora":"2026-11-09T12:10:04","status":404,"erro":"Not Found","mensagem":"Bairro 99 não encontrado","caminho":"/bairros/99"}
 ```
 
+## Documentação
+
+- `docs/RotaSeca_DDD_Java_NovaCore.pdf`: documentação completa (descrição, diagramas de classes, protótipos, endpoints, DER e instruções)
+- `docs/diagramas/`: diagramas de classes em PNG e o código Mermaid que os gera
+
 ## Testes
 
 `docs/resultado_testes.txt` traz a execução de 72 cenários (CRUD de todas as tabelas, regras de negócio e erros), todos aprovados.
